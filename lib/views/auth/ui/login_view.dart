@@ -1,0 +1,155 @@
+import 'package:e_commerce_app_supabase/views/auth/ui/widgets/custom_row_with_arrow.dart';
+import 'package:e_commerce_app_supabase/views/auth/ui/widgets/custom_text_btn.dart';
+import 'package:e_commerce_app_supabase/views/auth/ui/widgets/custom_text_field.dart';
+import 'package:flutter/material.dart';
+
+import '../../../core/app_colors.dart';
+
+class LoginView extends StatefulWidget {
+  const LoginView({super.key});
+
+  @override
+  State<LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool isPasswordHidden = true;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body:  SafeArea(
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text(
+                    "Welcome To Our Market",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  Card(
+                    color: AppColors.kWhiteColor,
+                    margin: const EdgeInsets.all(24),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(16),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          CustomTextFormField(
+                            controller: emailController,
+                            labelText: "Email",
+                            keyboardType: TextInputType.emailAddress,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          CustomTextFormField(
+                            controller: passwordController,
+                            keyboardType: TextInputType.visiblePassword,
+                            labelText: "Password",
+                            isSecured: isPasswordHidden,
+                            suffIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  isPasswordHidden = !isPasswordHidden;
+                                });
+                              },
+                              icon: Icon(isPasswordHidden
+                                  ? Icons.visibility
+                                  : Icons.visibility_off),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              CustomTextButton(
+                                text: "Forgot Password?",
+                                onTap: () {
+                                //  navigateTo(context, const ForgotView());
+                                },
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          CustomRowWithArrowBtn(
+                            text: "Login",
+                            onTap: () {
+                              if (_formKey.currentState!.validate()) {
+                                // cubit.login(
+                                //   email: emailController.text,
+                                //   password: passwordController.text,
+                                // );
+                              }
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          CustomRowWithArrowBtn(
+                            text: "Login With Google",
+                         //   onTap: () => cubit.googleSignIn(),
+                           onTap: () {},
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                "Don't Have an account?",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              CustomTextButton(
+                                  text: "Sign Up",
+                                  onTap: () {
+                                    // navigateTo(
+                                    //     context, const SignupView());
+                                  })
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )),
+    );
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+}
