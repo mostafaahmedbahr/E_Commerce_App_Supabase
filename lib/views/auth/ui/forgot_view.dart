@@ -1,8 +1,12 @@
+import 'package:e_commerce_app_supabase/core/functions/show_msg.dart';
 import 'package:e_commerce_app_supabase/views/auth/ui/widgets/custom_elevated_btn.dart';
 import 'package:e_commerce_app_supabase/views/auth/ui/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/app_colors.dart';
+import '../../../core/components/custom_circle_pro_ind.dart';
+import '../logic/cubit/authentication_cubit.dart';
 
 
 class ForgotView extends StatefulWidget {
@@ -18,69 +22,83 @@ class _ForgotViewState extends State<ForgotView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-          child: Form(
-            key: formKey,
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    "Enter Your Email To Reset Password",
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
+    return BlocConsumer<AuthenticationCubit , AuthenticationState>(
+      listener: (context,state){
+        if(state is PasswordResetError){
+          showMsg(context, state.error);
+        }
+        if(state is PasswordResetSuccess){
+          showMsg(context, "done");
+        }
+      },
+      builder: (context,state){
+        return Scaffold(
+          body: SafeArea(
+              child: Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 20,
                     ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-                Card(
-                  color: AppColors.kWhiteColor,
-                  margin: const EdgeInsets.all(24),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(16),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        "Enter Your Email To Reset Password",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      children: [
-                        CustomTextFormField(
-                          controller: emailController,
-                          labelText: "Email",
-                          keyboardType: TextInputType.emailAddress,
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        CustomEBtn(
-                          text: "Sumbit",
-                          onTap: () {
-                            if (formKey.currentState!.validate()) {
-                              // context
-                              //     .read<AuthenticationCubit>()
-                              //     .resetPassword(
-                              //     email: emailController.text);
-                            }
-                          },
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                      ],
+                    const SizedBox(
+                      height: 24,
                     ),
-                  ),
-                )
-              ],
-            ),
-          )),
+                    Card(
+                      color: AppColors.kWhiteColor,
+                      margin: const EdgeInsets.all(24),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(16),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          children: [
+                            CustomTextFormField(
+                              controller: emailController,
+                              labelText: "Email",
+                              keyboardType: TextInputType.emailAddress,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            state is PasswordResetLoading ?    const CustomCircleProgIndicator():
+                            CustomEBtn(
+                              text: "Sumbit",
+                              onTap: () {
+                                if (formKey.currentState!.validate()) {
+                                  context
+                                      .read<AuthenticationCubit>()
+                                      .resetPassword(
+                                      email: emailController.text);
+                                }
+                              },
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              )),
+        );
+      },
+
     );
   }
 

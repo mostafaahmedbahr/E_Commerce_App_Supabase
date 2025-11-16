@@ -101,19 +101,19 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     }
   }
 
-  // Future<void> resetPassword({required String email}) async {
-  //   emit(PasswordResetLoading());
-  //   try {
-  //     await client.auth.resetPasswordForEmail(email);
-  //     emit(PasswordResetSuccess());
-  //   } catch (e) {
-  //     log(e.toString());
-  //     emit(PasswordResetError());
-  //   }
-  // }
-  //
-  // // insert  => add only
-  // // upsert => add or update
+  Future<void> resetPassword({required String email}) async {
+    emit(PasswordResetLoading());
+    try {
+      await client.auth.resetPasswordForEmail(email);
+      emit(PasswordResetSuccess());
+    } catch (e) {
+      log(e.toString());
+      emit(PasswordResetError(e.toString()));
+    }
+  }
+
+  // insert  => add only
+  // upsert => add or update
   // Future<void> addUserData(
   //     {required String name, required String email}) async {
   //   emit(UserDataAddedLoading());
@@ -129,7 +129,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   //     emit(UserDataAddedError());
   //   }
   // }
-  //
+
   // UserDataModel? userDataModel;
   // Future<void> getUserData() async {
   //   emit(GetUserDataLoading());
