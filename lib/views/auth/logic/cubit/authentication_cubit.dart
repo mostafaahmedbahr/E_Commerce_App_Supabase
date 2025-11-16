@@ -34,26 +34,18 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         required String password}) async {
     emit(SignUpLoading());
     try {
-      print("11111111111");
       await client.auth.signUp(password: password, email: email).then((val){
-        print(val.user);
-        print("000000000000000000000000000");
       });
-   //   await addUserData(name: name, email: email);
+    await addUserData(name: name, email: email);
     //  await getUserData();
       emit(SignUpSuccess());
-      print("22222222222222");
-      print(client.auth.admin.mfa);
-      print(client.auth.admin.oauth);
-      print(client);
+
     } on AuthException catch (e) {
-      print("333333333333");
       log(e.toString());
       emit(SignUpError(e.message));
     } catch (e) {
       log(e.toString());
       emit(SignUpError(e.toString()));
-      print("4444444444444444");
     }
   }
 
@@ -83,7 +75,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       idToken: idToken,
       accessToken: accessToken,
     );
-    // await addUserData(name: googleUser!.displayName!, email: googleUser!.email);
+     await addUserData(name: googleUser!.displayName!, email: googleUser!.email);
     // await getUserData();
 
     emit(GoogleSignInSuccess());
@@ -114,21 +106,21 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
   // insert  => add only
   // upsert => add or update
-  // Future<void> addUserData(
-  //     {required String name, required String email}) async {
-  //   emit(UserDataAddedLoading());
-  //   try {
-  //     await client.from('users').upsert({
-  //       "user_id": client.auth.currentUser!.id,
-  //       "name": name,
-  //       "email": email,
-  //     });
-  //     emit(UserDataAddedSuccess());
-  //   } catch (e) {
-  //     log(e.toString());
-  //     emit(UserDataAddedError());
-  //   }
-  // }
+  Future<void> addUserData(
+      {required String name, required String email}) async {
+    emit(UserDataAddedLoading());
+    try {
+      await client.from('users').upsert({
+        "id": client.auth.currentUser!.id,
+        "name": name,
+        "email": email,
+      });
+      emit(UserDataAddedSuccess());
+    } catch (e) {
+      log(e.toString());
+      emit(UserDataAddedError());
+    }
+  }
 
   // UserDataModel? userDataModel;
   // Future<void> getUserData() async {
