@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/app_colors.dart';
 import '../../../core/functions/navigate_to.dart';
 import 'edit_name_view.dart';
+import 'my_orders.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
@@ -60,9 +61,8 @@ class ProfileView extends StatelessWidget {
                   height: 10,
                 ),
                 CustomRowBtn(
-                  onTap: (){},
-                  // onTap: () =>
-                  //     navigateTo(context, const MyOrdersViwe()),
+                  onTap: () =>
+                      navigateTo(context, const MyOrdersViwe()),
                   icon: Icons.shopping_basket,
                   text: "My Orders",
                 ),
