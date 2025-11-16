@@ -5,6 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
   import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../secure_file.dart';
+import '../models/user_model.dart';
 
 part 'authentication_state.dart';
 
@@ -17,7 +18,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     emit(LoginLoading());
     try {
       await client.auth.signInWithPassword(password: password, email: email);
-      // await getUserData();
+       await getUserData();
       emit(LoginSuccess());
     } on AuthException catch (e) {
       log(e.toString());
@@ -37,7 +38,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       await client.auth.signUp(password: password, email: email).then((val){
       });
     await addUserData(name: name, email: email);
-    //  await getUserData();
+      await getUserData();
       emit(SignUpSuccess());
 
     } on AuthException catch (e) {
@@ -76,7 +77,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       accessToken: accessToken,
     );
      await addUserData(name: googleUser!.displayName!, email: googleUser!.email);
-    // await getUserData();
+     await getUserData();
 
     emit(GoogleSignInSuccess());
     return response;
@@ -122,22 +123,22 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     }
   }
 
-  // UserDataModel? userDataModel;
-  // Future<void> getUserData() async {
-  //   emit(GetUserDataLoading());
-  //   try {
-  //     final List<Map<String, dynamic>> data = await client
-  //         .from('users')
-  //         .select()
-  //         .eq("user_id", client.auth.currentUser!.id);
-  //     userDataModel = UserDataModel(
-  //         email: data[0]["email"],
-  //         name: data[0]["name"],
-  //         userId: data[0]["user_id"]);
-  //     emit(GetUserDataSuccess());
-  //   } catch (e) {
-  //     log(e.toString());
-  //     emit(GetUserDataError());
-  //   }
-  // }
+  UserDataModel? userDataModel;
+  Future<void> getUserData() async {
+    emit(GetUserDataLoading());
+    try {
+      final List<Map<String, dynamic>> data = await client
+          .from('users')
+          .select()
+          .eq("id", client.auth.currentUser!.id);
+      userDataModel = UserDataModel(
+          email: data[0]["email"],
+          name: data[0]["name"],
+          userId: data[0]["id"]);
+      emit(GetUserDataSuccess());
+    } catch (e) {
+      log(e.toString());
+      emit(GetUserDataError());
+    }
+  }
 }

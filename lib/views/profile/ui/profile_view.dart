@@ -9,11 +9,12 @@ import '../../../core/app_colors.dart';
 import '../../../core/components/custom_circle_pro_ind.dart';
 import '../../../core/functions/navigate_to.dart';
 import '../../auth/logic/cubit/authentication_cubit.dart';
+import '../../auth/logic/models/user_model.dart';
 import 'edit_name_view.dart';
 import 'my_orders.dart';
 
 class ProfileView extends StatelessWidget {
-  const ProfileView({super.key});
+  const ProfileView({super.key, });
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +29,7 @@ class ProfileView extends StatelessWidget {
         }
       } ,
       builder: (context,state){
+        UserDataModel? user = context.read<AuthenticationCubit>().userDataModel;
         return Center(
           child: SizedBox(
             height: MediaQuery.sizeOf(context).height * .65,
@@ -56,14 +58,14 @@ class ProfileView extends StatelessWidget {
                       height: 10,
                     ),
                     Text(
-                      "user?.name" ?? "User Name",
+                      user?.name ?? "User Name",
                       style:
                       const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
-                    Text("user?.email" ?? "User Email"),
+                    Text(user?.email ?? "User Email"),
                     const SizedBox(
                       height: 10,
                     ),
