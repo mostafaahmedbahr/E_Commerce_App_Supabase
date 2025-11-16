@@ -26,25 +26,25 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     }
   }
 
-  // Future<void> register(
-  //     {required String name,
-  //       required String email,
-  //       required String password}) async {
-  //   emit(SignUpLoading());
-  //   try {
-  //     await client.auth.signUp(password: password, email: email);
-  //     await addUserData(name: name, email: email);
-  //     await getUserData();
-  //     emit(SignUpSuccess());
-  //   } on AuthException catch (e) {
-  //     log(e.toString());
-  //     emit(SignUpError(e.message));
-  //   } catch (e) {
-  //     log(e.toString());
-  //     emit(SignUpError(e.toString()));
-  //   }
-  // }
-  //
+  Future<void> register(
+      {required String name,
+        required String email,
+        required String password}) async {
+    emit(SignUpLoading());
+    try {
+      await client.auth.signUp(password: password, email: email);
+   //   await addUserData(name: name, email: email);
+    //  await getUserData();
+      emit(SignUpSuccess());
+    } on AuthException catch (e) {
+      log(e.toString());
+      emit(SignUpError(e.message));
+    } catch (e) {
+      log(e.toString());
+      emit(SignUpError(e.toString()));
+    }
+  }
+
   // GoogleSignInAccount? googleUser;
   // Future<AuthResponse> googleSignIn() async {
   //   emit(GoogleSignInLoading());
