@@ -4,6 +4,8 @@ import 'package:e_commerce_app_supabase/views/auth/ui/widgets/custom_text_field.
 import 'package:flutter/material.dart';
 
 import '../../../core/app_colors.dart';
+import '../../../core/functions/navigate_to.dart';
+import 'forgot_view.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -84,7 +86,7 @@ class _LoginViewState extends State<LoginView> {
                               CustomTextButton(
                                 text: "Forgot Password?",
                                 onTap: () {
-                                //  navigateTo(context, const ForgotView());
+                                  navigateTo(context, const ForgotView());
                                 },
                               ),
                             ],
