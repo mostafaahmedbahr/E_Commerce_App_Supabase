@@ -32,16 +32,26 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         required String password}) async {
     emit(SignUpLoading());
     try {
-      await client.auth.signUp(password: password, email: email);
+      print("11111111111");
+      await client.auth.signUp(password: password, email: email).then((val){
+        print(val.user);
+        print("000000000000000000000000000");
+      });
    //   await addUserData(name: name, email: email);
     //  await getUserData();
       emit(SignUpSuccess());
+      print("22222222222222");
+      print(client.auth.admin.mfa);
+      print(client.auth.admin.oauth);
+      print(client);
     } on AuthException catch (e) {
+      print("333333333333");
       log(e.toString());
       emit(SignUpError(e.message));
     } catch (e) {
       log(e.toString());
       emit(SignUpError(e.toString()));
+      print("4444444444444444");
     }
   }
 
