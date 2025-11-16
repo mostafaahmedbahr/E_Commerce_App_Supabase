@@ -1,4 +1,5 @@
 import 'package:e_commerce_app_supabase/views/auth/ui/login_view.dart';
+import 'package:e_commerce_app_supabase/views/nav_bar/ui/main_home_view.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const LoginView(),
+      home: const MainHomeView(),
     );
   }
 }
