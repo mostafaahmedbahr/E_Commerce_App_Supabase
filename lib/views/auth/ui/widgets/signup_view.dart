@@ -1,29 +1,27 @@
-import 'package:e_commerce_app_supabase/views/auth/ui/widgets/custom_row_with_arrow.dart';
-import 'package:e_commerce_app_supabase/views/auth/ui/widgets/custom_text_btn.dart';
-import 'package:e_commerce_app_supabase/views/auth/ui/widgets/custom_text_field.dart';
-import 'package:e_commerce_app_supabase/views/auth/ui/widgets/signup_view.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/app_colors.dart';
-import '../../../core/functions/navigate_to.dart';
-import 'forgot_view.dart';
+import '../../../../core/app_colors.dart';
+import 'custom_row_with_arrow.dart';
+import 'custom_text_btn.dart';
+import 'custom_text_field.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+
+class SignupView extends StatefulWidget {
+  const SignupView({super.key});
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<SignupView> createState() => _SignupViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+class _SignupViewState extends State<SignupView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool isPasswordHidden = true;
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:  SafeArea(
+      body: SafeArea(
           child: SingleChildScrollView(
             child: Form(
               key: _formKey,
@@ -55,7 +53,15 @@ class _LoginViewState extends State<LoginView> {
                       child: Column(
                         children: [
                           CustomTextFormField(
-                            controller: emailController,
+                            controller: _nameController,
+                            labelText: "Name",
+                            keyboardType: TextInputType.name,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          CustomTextFormField(
+                            controller: _emailController,
                             labelText: "Email",
                             keyboardType: TextInputType.emailAddress,
                           ),
@@ -63,45 +69,30 @@ class _LoginViewState extends State<LoginView> {
                             height: 20,
                           ),
                           CustomTextFormField(
-                            controller: passwordController,
-                            keyboardType: TextInputType.visiblePassword,
+                            controller: _passwordController,
                             labelText: "Password",
-                            isSecured: isPasswordHidden,
+                            keyboardType:
+                            TextInputType.visiblePassword,
+                            isSecured: true,
                             suffIcon: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  isPasswordHidden = !isPasswordHidden;
-                                });
-                              },
-                              icon: Icon(isPasswordHidden
-                                  ? Icons.visibility
-                                  : Icons.visibility_off),
+                              onPressed: () {},
+                              icon: const Icon(Icons.visibility_off),
                             ),
                           ),
                           const SizedBox(
                             height: 20,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              CustomTextButton(
-                                text: "Forgot Password?",
-                                onTap: () {
-                                  navigateTo(context, const ForgotView());
-                                },
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
                           CustomRowWithArrowBtn(
-                            text: "Login",
+                            text: "Sign Up",
                             onTap: () {
                               if (_formKey.currentState!.validate()) {
-                                // cubit.login(
-                                //   email: emailController.text,
-                                //   password: passwordController.text,
+                                // context
+                                //     .read<AuthenticationCubit>()
+                                //     .register(
+                                //   name: _nameController.text,
+                                //   email: _emailController.text,
+                                //   password:
+                                //   _passwordController.text,
                                 // );
                               }
                             },
@@ -110,18 +101,22 @@ class _LoginViewState extends State<LoginView> {
                             height: 20,
                           ),
                           CustomRowWithArrowBtn(
-                            text: "Login With Google",
-                         //   onTap: () => cubit.googleSignIn(),
-                           onTap: () {},
+                            text: "Sign Up With Google",
+                            onTap: () {
+                              // context
+                              //     .read<AuthenticationCubit>()
+                              //     .googleSignIn();
+                            },
                           ),
                           const SizedBox(
                             height: 20,
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment:
+                            MainAxisAlignment.center,
                             children: [
                               const Text(
-                                "Don't Have an account?",
+                                "Already Have an account?",
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -131,11 +126,11 @@ class _LoginViewState extends State<LoginView> {
                                 width: 5,
                               ),
                               CustomTextButton(
-                                  text: "Sign Up",
-                                  onTap: () {
-                                    navigateTo(
-                                        context, const SignupView());
-                                  })
+                                text: "Login",
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
                             ],
                           )
                         ],
@@ -151,8 +146,9 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 }
