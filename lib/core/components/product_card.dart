@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 
 import '../../views/auth/ui/widgets/custom_elevated_btn.dart';
+import '../../views/product_details/ui/product_details_view.dart';
 import '../app_colors.dart';
 import '../functions/navigate_to.dart';
 import 'cache_image.dart';
@@ -21,12 +22,12 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){},
-      // onTap: () => navigateTo(
-      //     context,
-      //     ProductDetailsView(
-      //       product: product,
-      //     )),
+
+      onTap: () => navigateTo(
+          context,
+          ProductDetailsView(
+            // product: product,
+          )),
       child: Card(
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(16)),
