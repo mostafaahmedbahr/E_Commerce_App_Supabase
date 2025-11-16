@@ -30,7 +30,8 @@ class MyApp extends StatelessWidget {
 
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         ),
-        home:Supabase.instance.client.auth.currentUser==null ?  const LoginView() : MainHomeView(),
+     home: const LoginView(),
+     //   home:Supabase.instance.client.auth.currentUser==null ?  const LoginView() : MainHomeView(),
       ),
     );
   }

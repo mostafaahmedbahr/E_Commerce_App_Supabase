@@ -4,6 +4,8 @@ import 'dart:developer';
 import 'package:google_sign_in/google_sign_in.dart';
   import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../../secure_file.dart';
+
 part 'authentication_state.dart';
 
 class AuthenticationCubit extends Cubit<AuthenticationState> {
@@ -55,41 +57,39 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     }
   }
 
-  // GoogleSignInAccount? googleUser;
-  // Future<AuthResponse> googleSignIn() async {
-  //   emit(GoogleSignInLoading());
-  //   const webClientId =
-  //       '695947127810-ed6st2u22ov1a33bckft4j172h3ofiau.apps.googleusercontent.com';
-  //
-  //   final GoogleSignIn googleSignIn = GoogleSignIn(
-  //     // clientId: iosClientId,
-  //     serverClientId: webClientId,
-  //   );
-  //   googleUser = await googleSignIn.signIn();
-  //   if (googleUser == null) {
-  //     return AuthResponse();
-  //   }
-  //   final googleAuth = await googleUser!.authentication;
-  //   final accessToken = googleAuth.accessToken;
-  //   final idToken = googleAuth.idToken;
-  //
-  //   if (accessToken == null || idToken == null) {
-  //     emit(GoogleSignInError());
-  //     return AuthResponse();
-  //   }
-  //
-  //   AuthResponse response = await client.auth.signInWithIdToken(
-  //     provider: OAuthProvider.google,
-  //     idToken: idToken,
-  //     accessToken: accessToken,
-  //   );
-  //   await addUserData(name: googleUser!.displayName!, email: googleUser!.email);
-  //   await getUserData();
-  //
-  //   emit(GoogleSignInSuccess());
-  //   return response;
-  // }
-  //
+  GoogleSignInAccount? googleUser;
+  Future<AuthResponse> googleSignIn() async {
+    emit(GoogleSignInLoading());
+    final webClientId = SecureFile.webClientId;
+
+    final GoogleSignIn googleSignIn = GoogleSignIn(
+      serverClientId: webClientId,
+    );
+    googleUser = await googleSignIn.signIn();
+    if (googleUser == null) {
+      return AuthResponse();
+    }
+    final googleAuth = await googleUser!.authentication;
+    final accessToken = googleAuth.accessToken;
+    final idToken = googleAuth.idToken;
+
+    if (accessToken == null || idToken == null) {
+      emit(GoogleSignInError());
+      return AuthResponse();
+    }
+
+    AuthResponse response = await client.auth.signInWithIdToken(
+      provider: OAuthProvider.google,
+      idToken: idToken,
+      accessToken: accessToken,
+    );
+    // await addUserData(name: googleUser!.displayName!, email: googleUser!.email);
+    // await getUserData();
+
+    emit(GoogleSignInSuccess());
+    return response;
+  }
+
   // Future<void> signOut() async {
   //   emit(LogoutLoading());
   //   try {

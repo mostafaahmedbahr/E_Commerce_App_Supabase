@@ -131,10 +131,12 @@ class _LoginViewState extends State<LoginView> {
                               const SizedBox(
                                 height: 20,
                               ),
+                            state is GoogleSignInLoading
+                            ? const CustomCircleProgIndicator()
+                            :
                               CustomRowWithArrowBtn(
                                 text: "Login With Google",
-                                  onTap :(){}
-                              //  onTap: () => cubit.googleSignIn(),
+                               onTap: () => cubit.googleSignIn(),
                               ),
                               const SizedBox(
                                 height: 20,
